@@ -15,7 +15,11 @@
 ```bash
 
 $ python bars.py # possibly requires call of python3 executive instead of just python
-# FIXME вывести пример ответа скрипта
+Biggest bar: Спорт бар «Красная машина»
+Smallest bar: Юнион Джек
+Your longitude: 454545
+Your latitude: 56565656
+Nearest bar: Таверна
 
 ```
 
