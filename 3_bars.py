@@ -36,7 +36,7 @@ def get_closest_bar(bars_data, longitude, latitude):
 
 
 if __name__ == '__main__':
-    filepath = input('Введите путь к файлу: ')
+    filepath = input('Enter filepath: ')
     bars_data = load_data(filepath)
 
     print('Самый большой бар: ', get_biggest_bar(bars_data))
