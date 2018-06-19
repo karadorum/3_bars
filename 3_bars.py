@@ -32,7 +32,7 @@ def get_closest_bar(bars_data, longitude, latitude):
         bars_data['features'],
         key=lambda x: get_distance(x, longitude, latitude)
     )
-    return(closest_bar["properties"]["Attributes"]['Name'])
+    return closest_bar["properties"]["Attributes"]['Name']
 
 
 if __name__ == '__main__':
