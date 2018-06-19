@@ -5,8 +5,8 @@ from math import sqrt
 
 def load_data(filepath):
     with open(filepath, encoding="utf-8") as json_file:
-        parsed_string = json.load(json_file)
-        return parsed_string
+        json_data = json.load(json_file)
+        return json_data
 
 
 def get_biggest_bar(bars_data):
