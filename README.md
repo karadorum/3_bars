@@ -14,7 +14,7 @@
 
 ```bash
 
-$ python bars.py # possibly requires call of python3 executive instead of just python
+$ python 3_bars.py <название файла в формате json> 
 Biggest bar: Спорт бар «Красная машина»
 Smallest bar: Юнион Джек
 Your longitude: 454545
