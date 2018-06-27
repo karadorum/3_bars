@@ -1,5 +1,4 @@
 import json
-import requests
 from math import sqrt
 import os
 import sys
@@ -7,19 +6,21 @@ import sys
 
 def load_data(filename):
     with open(filename, encoding='utf-8') as json_file:
-        json_decoded = json.load(json_file)
-        return json_decoded
+        decoded_json = json.load(json_file)
+        return decoded_json
 
 
 def get_biggest_bar(bars_data):
-    max_bar_capacity = max(bars_data['features'], key=lambda k: k['properties']['Attributes']['SeatsCount'])
-    biggest_bar = max_bar_capacity['properties']['Attributes']['Name']
+    biggest_bar = max(
+        bars_data,
+        key=lambda k: k['properties']['Attributes']['SeatsCount'])
     return biggest_bar
 
 
 def get_smallest_bar(bars_data):
-    min_bar_capacity = min(bars_data['features'], key=lambda k: k['properties']['Attributes']['SeatsCount'])
-    smallest_bar = min_bar_capacity['properties']['Attributes']['Name']
+    smallest_bar = min(
+        bars_data,
+        key=lambda k: k['properties']['Attributes']['SeatsCount'])
     return smallest_bar
 
 
@@ -30,29 +31,49 @@ def get_distance(bar, longitude, latitude):
 
 
 def get_closest_bar(bars_data, longitude, latitude):
-    min_bar_distance = min(
-        bars_data['features'],
+    closest_bar = min(
+        bars_data,
         key=lambda x: get_distance(x, longitude, latitude)
     )
-    closest_bar = min_bar_distance['properties']['Attributes']['Name']
     return closest_bar
 
 
+def get_arg(name):
+    try:
+        x = float(input('Your {}: '.format(name)))
+    except ValueError:
+        x = None
+        print('{} must be number'.format(name))
+    return x
+
+
+def bars():
+    try:
+        data = load_data(sys.argv[1])['features']
+    except IndexError:
+        print('name of file argument is empty')
+    except FileNotFoundError:
+        print('file not found')
+    except json.decoder.JSONDecodeError:
+        print('file format must be json')
+    return data
+
+
 if __name__ == '__main__':
-    try:
-        longitude = float(input('Your longitude: '))
-    except ValueError:
-        longitude = None
-        print('longitude,latitude must be numbers')
-    try:
-        latitude = float(input('Your latitude: '))
-    except ValueError:
-        latitude = None
-        print('longitude,latitude must be numbers')
+    longitude = get_arg('longitude')
+    latitude = get_arg('latitude')
+    bars_data = bars()
 
-    bars_data = load_data(sys.argv[1])
-
-    print('Самый большой бар: ', get_biggest_bar(bars_data))
-    print('Самый маленький бар: ', get_smallest_bar(bars_data))
-    print('Самый близкий бар: ',  get_closest_bar(
-        bars_data, longitude, latitude))
+    print(
+        'Самый большой бар: ',
+        get_biggest_bar(bars_data)['properties']['Attributes']['Name'])
+    print(
+        'Самый маленький бар: ',
+        get_smallest_bar(bars_data)['properties']['Attributes']['Name'])
+    print(
+        'Самый близкий бар: ',
+        get_closest_bar(
+            bars_data,
+            longitude,
+            latitude
+            )['properties']['Attributes']['Name'])
