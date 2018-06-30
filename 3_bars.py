@@ -38,31 +38,31 @@ def get_closest_bar(bars_data, longitude, latitude):
     return closest_bar
 
 
-def get_arg(name):
+def get_arg(argname):
     try:
-        x = float(input('Your {}: '.format(name)))
+        x = float(input('Your {}: '.format(argname)))
     except ValueError:
         x = None
-        print('{} must be number'.format(name))
+        print('{} must be number'.format(argname))
     return x
 
 
-def bars():
+def get_bars():
     try:
-        data = load_data(sys.argv[1])['features']
+        arg_data = load_data(sys.argv[1])['features']
     except IndexError:
         print('name of file argument is empty')
     except FileNotFoundError:
         print('file not found')
     except json.decoder.JSONDecodeError:
         print('file format must be json')
-    return data
+    return arg_data
 
 
 if __name__ == '__main__':
     longitude = get_arg('longitude')
     latitude = get_arg('latitude')
-    bars_data = bars()
+    bars_data = get_bars()
 
     print(
         'Самый большой бар: ',
