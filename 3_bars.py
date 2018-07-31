@@ -67,8 +67,21 @@ def print_result(bar_description, bar):
 if __name__ == '__main__':
     longitude = get_arg('longitude')
     latitude = get_arg('latitude')
-    bars_data = get_bars(sys.argv[1])
-
+     
+    try:
+        bars_data = get_bars(sys.argv[1])
+    except IndexError:
+        print('name of file argument is empty')
+    except FileNotFoundError:
+        print('file not found')
+    except TypeError:
+        print('file not found')
+    except json.decoder.JSONDecodeError:
+        print('file format must be json')
+    if bars_data is None:
+        print('file not found or wrong format')
+    
+    
     print_result(
         'Самый большой бар: ',
         get_biggest_bar(bars_data))
