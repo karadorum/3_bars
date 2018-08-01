@@ -11,6 +11,7 @@ def load_data(filename):
 
 
 def get_biggest_bar(bars_data):
+
     biggest_bar = max(
         bars_data,
         key=lambda k: k['properties']['Attributes']['SeatsCount'])
@@ -34,7 +35,7 @@ def get_closest_bar(bars_data, longitude, latitude):
     closest_bar = min(
         bars_data,
         key=lambda x: get_distance(x, longitude, latitude)
-    )
+        )
     return closest_bar
 
 
@@ -51,11 +52,11 @@ def get_bars(arg):
     try:
         arg_data = load_data(arg)['features']
     except IndexError:
-        exit('name of file argument is empty')
+        arg_data = None
     except FileNotFoundError:
-        exit('file not found')
+        arg_data = None
     except json.decoder.JSONDecodeError:
-        exit('file format must be json')
+        arg_data = None
     return arg_data
 
 
@@ -65,23 +66,16 @@ def print_result(bar_description, bar):
 
 
 if __name__ == '__main__':
-    longitude = get_arg('longitude')
-    latitude = get_arg('latitude')
-     
     try:
         bars_data = get_bars(sys.argv[1])
     except IndexError:
         print('name of file argument is empty')
-    except FileNotFoundError:
-        print('file not found')
-    except TypeError:
-        print('file not found')
-    except json.decoder.JSONDecodeError:
-        print('file format must be json')
     if bars_data is None:
         print('file not found or wrong format')
-    
-    
+
+    longitude = get_arg('longitude')
+    latitude = get_arg('latitude')
+
     print_result(
         'Самый большой бар: ',
         get_biggest_bar(bars_data))
